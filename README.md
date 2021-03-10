@@ -22,3 +22,14 @@ An example binary that the server shells out to for analysis.
 
 The core socket service. This coordinates input analysis with child processes, and responds to remote requests.
 
+
+## Creating a Teacher Moments Agent
+
+1. Navigate to [Admin/Agents](https://teachermoments.mit.edu/admin/agents) (assuming your user has sufficient privileges to access this section of the site.).
+2. Click **Create a new agent**
+3. Enter a name for your new agent
+4. Enter a brief description
+5. Enter the endpoint: `ws://dcss-saa-production.herokuapp.com`
+6. Select one more Interactions that you want to send to the agent
+6. Click "Save"
+
