@@ -13,7 +13,7 @@ const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
 async function analyze(input) {
-  const { stdout, stderr } = await exec(`sentiment -i '${escapeStringRegexp(input)}'`);
+  const { stdout, stderr } = await exec(`./sentiment.js -i '${escapeStringRegexp(input)}'`);
   return JSON.parse(stderr || stdout);
 }
 
