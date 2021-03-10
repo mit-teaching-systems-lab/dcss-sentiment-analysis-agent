@@ -14,7 +14,10 @@ const exec = util.promisify(require('child_process').exec);
 
 async function analyze(input) {
   const { stdout, stderr } = await exec(`./sentiment.js -i '${escapeStringRegexp(input)}'`);
-  return JSON.parse(stderr || stdout);
+  if (stderr) {
+    return stderr;
+  }
+  return JSON.parse(stdout);
 }
 
 const express = require('express');
