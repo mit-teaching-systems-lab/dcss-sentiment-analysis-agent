@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+  <head>
+  </head>
+  <body>
+    <h2>Use this to demonstrate send and receive to socket server</h2>
+    <h3>Type in the input and click "Analyze".</h3>
+    <form style="display:inline">
+      <input autofocus id="input" />
+      <input type="submit" value="Analyze" />
+    </form>
+    <button id="end">End</button>
+    <p id="interjection"></p>
+    <p id="outcome"></p>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const port = /***PORT***/; // this is replaced by the server
+      const endpoint = location.origin.replace(/:\d.*/, `:${port}`);
+      const transports = ['websocket', 'polling'];
+
+      const agent = {
+        id: 1,
+        name: 'Sentiment Analysis Agent',
+        configuration: {}
+      };
+
+      const chat = {
+        id: 2
+      };
+
+      const user = {
+        id: 3,
+        name: 'Web Page User'
+      };
+
+      const auth = {
+        agent,
+        chat,
+        user,
+      };
+
+      const options = {
+        transports,
+        auth
+      };
+
+      console.log('endpoint', endpoint);
+      console.log('options', options);
+
+      const socket = io(endpoint, options);
+
+      const end = document.getElementById('end');
+      const form = document.querySelector('form');
+      const input = document.getElementById('input');
+      const outcome = document.getElementById('outcome');
+      const submit = document.querySelector('input[type=submit]');
+      const interjection = document.getElementById('interjection');
+
+      const key = 'userInput';
+      const annotations = [];
+
+      const onSubmit = () => {
+        const value = input.value;
+        socket.emit('request', {
+          value
+        });
+      };
+
+      end.onclick = () => {
+        socket.emit('end', auth);
+      };
+
+      form.onsubmit = event => {
+        onSubmit();
+        return false;
+      };
+
+      let timeout;
+      socket.on('interjection', ({ message }) => {
+        interjection.innerHTML = message;
+        if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
+        }
+        timeout = setTimeout(() => interjection.innerHTML = '', 5000);
+      });
+
+      socket.on('response', ({ value, result, ...misc }) => {
+        outcome.innerHTML = `"${value}" ${result ? 'is' : 'is not'} negative.`;
+        console.log(misc);
+      });
+    </script>
+  </body>
+</html>
