@@ -30,6 +30,6 @@ The core socket service. This coordinates input analysis with child processes, a
 3. Enter a name for your new agent
 4. Enter a brief description
 5. Enter the endpoint: `ws://dcss-saa-production.herokuapp.com`
-6. Select one more Interactions that you want to send to the agent
+6. Select one or more Interactions that you want to send to the agent
 6. Click "Save"
 
