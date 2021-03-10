@@ -102,7 +102,7 @@ io.on('connection', (socket) => {
 
     if (result) {
       io.to(user.id).emit('interjection', {
-        message: `Excuse me ${user.name}, but that was a little negative. Please be nicer.`
+        message: `Excuse me, but that was a little negative. Please be nicer.`
       });
     }
 
