@@ -100,6 +100,12 @@ io.on('connection', (socket) => {
       result
     };
 
+    if (result) {
+      io.to(user.id).emit('interjection', {
+        message: `Excuse me ${user.name}, but that was a little negative. Please be nicer.`
+      });
+    }
+
     // Send the response to the specified private
     // channel for this client socket connection.
     io.to(user.id).emit('response', response);
