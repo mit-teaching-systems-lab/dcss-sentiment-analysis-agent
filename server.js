@@ -73,9 +73,10 @@ io.on('connection', (socket) => {
     //
     // Send the response to the specified private
     // channel for this client socket connection.
-    io.to(user.id).emit('interjection', {
-      message: `Hello, I will analyze all of your messages for sentiment`
-    });
+
+    const sentiment = agent.configuration.sentiment;
+    const message = `Hello, I will analyze all of your messages for ${sentiment} sentiment`;
+    io.to(user.id).emit('interjection', { message });
   }
 
   /*
@@ -94,7 +95,7 @@ io.on('connection', (socket) => {
       vote
     } = await analyze(payload.value);
 
-    const result = vote === cache[user.id].agent.configuration.vote;
+    const result = vote === cache[user.id].agent.configuration.sentiment;
     const response = {
       ...payload,
       result
