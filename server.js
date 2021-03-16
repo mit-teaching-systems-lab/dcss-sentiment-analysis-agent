@@ -74,7 +74,7 @@ io.on('connection', (socket) => {
     // Send the response to the specified private
     // channel for this client socket connection.
     io.to(user.id).emit('interjection', {
-      message: `Hello ${user.name}, I will analyze all of your messages for sentiment`
+      message: `Hello, I will analyze all of your messages for sentiment`
     });
   }
 
@@ -94,15 +94,19 @@ io.on('connection', (socket) => {
       vote
     } = await analyze(payload.value);
 
-    const result = vote === 'negative';
+    const result = vote === cache[user.id].agent.configuration.vote;
     const response = {
       ...payload,
       result
     };
 
     if (result) {
+      const message = vote === 'negative'
+        ? 'Excuse me, but that was a little negative. Please be nicer.'
+        : 'Thanks for being so positive!';
+
       io.to(user.id).emit('interjection', {
-        message: `Excuse me, but that was a little negative. Please be nicer.`
+        message
       });
     }
 
