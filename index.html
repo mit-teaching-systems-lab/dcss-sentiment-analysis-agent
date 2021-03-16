@@ -18,10 +18,13 @@
       const endpoint = location.origin.replace(/:\d.*/, `:${port}`);
       const transports = ['websocket', 'polling'];
 
+      const sentiment = 'positive'; // Use: 'positive' | 'negative'
       const agent = {
         id: 1,
         name: 'Sentiment Analysis Agent',
-        configuration: {}
+        configuration: {
+          sentiment
+        }
       };
 
       const chat = {
@@ -86,7 +89,7 @@
       });
 
       socket.on('response', ({ value, result, ...misc }) => {
-        outcome.innerHTML = `"${value}" ${result ? 'is' : 'is not'} negative.`;
+        outcome.innerHTML = `"${value}" ${result ? 'is' : 'is not'} ${sentiment}.`;
         console.log(misc);
       });
     </script>

@@ -21,10 +21,13 @@ const endpoint = process.env.NODE_ENV && process.env.NODE_ENV === 'production'
   ? 'ws://dcss-saa-production.herokuapp.com'
   : 'http://localhost:4000';
 
+const sentiment = 'positive'; // Use: 'positive' | 'negative'
 const agent = {
   id: 1,
   name: 'Sentiment Analysis Agent',
-  configuration: {}
+  configuration: {
+    sentiment
+  }
 };
 
 const chat = {
@@ -55,7 +58,7 @@ const socket = io(endpoint, options);
 const annotations = [];
 
 socket.on('response', ({value, result}) => {
-  console.log(`"${value}" ${result ? 'is' : 'is not'} negative.`);
+  console.log(`"${value}" ${result ? 'is' : 'is not'} ${sentiment}.`);
 });
 
 socket.on('interjection', ({message}) => {
