@@ -95,7 +95,11 @@ io.on('connection', (socket) => {
       vote
     } = await analyze(payload.value);
 
+    console.log(JSON.stringify(cache[user.id].agent));
     const result = vote === cache[user.id].agent.configuration.sentiment;
+
+    console.log(`Was the message ${cache[user.id].agent.configuration.sentiment}? ${result}`);
+
     const response = {
       ...payload,
       result
