@@ -114,6 +114,8 @@ io.on('connection', (socket) => {
     // Send the response to the specified private
     // channel for this client socket connection.
     io.to(user.id).emit('response', response);
+    console.log('response', response);
+
   });
 
   socket.on('end', ({ auth, chat, user }) => {
