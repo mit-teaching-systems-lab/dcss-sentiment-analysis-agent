@@ -105,7 +105,7 @@ io.on('connection', (socket) => {
       result
     };
 
-    if (result) {
+    if (result && chat && chat.id) {
       const message = vote === 'negative'
         ? 'Excuse me, but that was a little negative. Please be nicer.'
         : 'Thanks for being so positive!';
@@ -119,7 +119,6 @@ io.on('connection', (socket) => {
     // channel for this client socket connection.
     io.to(user.id).emit('response', response);
     console.log('response', response);
-
   });
 
   socket.on('end', ({ auth, chat, user }) => {
